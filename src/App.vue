@@ -18,21 +18,7 @@
         :key="ressource.id"
         class="flex lg3 md4 sm12 pa-3"
       >
-        <va-card>
-          <va-image
-            style="height: 220px"
-            :src="ressource.image || require('@/assets/default-image.png')"
-          />
-
-          <va-card-title
-            ><span v-if="ressource.isTop"><va-icon name="star" /> </span>
-            {{ ressource.title }}</va-card-title
-          >
-          <va-card-content>
-            {{ ressource.media }} ajouté(e) le
-            {{ ressource.date }}</va-card-content
-          >
-        </va-card>
+        <RessourceItem :ressource="ressource" />
       </div>
     </div>
   </div>
@@ -43,7 +29,11 @@ import db from "@/data/db";
 
 import { ref } from "@vue/reactivity";
 
+import RessourceItem from "@/components/RessourceItem.vue";
+
 export default {
+  components: { RessourceItem },
+
   setup() {
     const ressources = ref(db);
 
