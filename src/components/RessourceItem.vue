@@ -12,6 +12,25 @@
     <va-card-content>
       {{ mediaInFrench }} ajouté(e) le {{ dateInFrench }}</va-card-content
     >
+
+    <div class="px-3 py-3">
+      <va-button
+        v-if="!isBookmark"
+        color="#3ac93e"
+        gradient
+        @click="bookmarkAction(ressource)"
+        icon="bookmark"
+        round
+      />
+      <va-button
+        v-else
+        color="#3ac93e"
+        gradient
+        @click="removeBookmarkAction(ressource)"
+        icon="bookmark_remove"
+        round
+      />
+    </div>
   </va-card>
 </template>
 
@@ -23,8 +42,12 @@ export default {
       type: Object,
       default: null,
     },
+    isBookmark: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
+  setup(props, context) {
     const mediaInFrench = computed(() => {
       switch (props.ressource.media) {
         case "video":
@@ -42,10 +65,22 @@ export default {
       new Date(props.ressource.date).toLocaleDateString()
     );
 
-    return { dateInFrench, mediaInFrench };
+    const bookmarkAction = (ressource) => {
+      context.emit("add-to-bookmarks", ressource);
+    };
+
+    const removeBookmarkAction = (ressource) => {
+      context.emit("remove-from-bookmarks", ressource);
+    };
+
+    return {
+      dateInFrench,
+      mediaInFrench,
+      bookmarkAction,
+      removeBookmarkAction,
+    };
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
