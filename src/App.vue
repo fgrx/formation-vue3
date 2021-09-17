@@ -1,14 +1,5 @@
 <template>
-  <va-navbar text-color="#73ef71" color="dark" class="mb-2">
-    <template #left>
-      <va-navbar-item class="title-site">DevWall</va-navbar-item>
-    </template>
-
-    <template #right>
-      <va-navbar-item></va-navbar-item>
-    </template>
-  </va-navbar>
-
+  <NavBar />
   <div class="container">
     <h1 class="display-1">Bienvenue sur DevWall</h1>
 
@@ -44,6 +35,8 @@
       </div>
     </div>
   </div>
+
+  <VideoModal />
 </template>
 
 <script>
@@ -51,10 +44,12 @@ import db from "@/data/db";
 
 import { ref } from "@vue/reactivity";
 
-import RessourceItem from "@/components/RessourceItem.vue";
+import NavBar from "@/components/NavBar";
+import RessourceItem from "@/components/RessourceItem";
+import VideoModal from "@/components/VideoModal";
 
 export default {
-  components: { RessourceItem },
+  components: { NavBar, RessourceItem, VideoModal },
 
   setup() {
     const ressources = ref(db);

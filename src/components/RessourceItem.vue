@@ -30,12 +30,22 @@
         icon="bookmark_remove"
         round
       />
+      <va-button
+        v-if="ressource.media === 'video'"
+        color="#3ac93e"
+        gradient
+        @click="openVideoAction(ressource)"
+        icon="play_circle_filled"
+        round
+        class="ml-2"
+      />
     </div>
   </va-card>
 </template>
 
 <script>
 import { computed } from "@vue/reactivity";
+import eventBus from "../plugins/eventBus";
 export default {
   props: {
     ressource: {
@@ -73,11 +83,16 @@ export default {
       context.emit("remove-from-bookmarks", ressource);
     };
 
+    const openVideoAction = (ressource) => {
+      eventBus.emit("open-video-modal", ressource);
+    };
+
     return {
       dateInFrench,
       mediaInFrench,
       bookmarkAction,
       removeBookmarkAction,
+      openVideoAction,
     };
   },
 };
