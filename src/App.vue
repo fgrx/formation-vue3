@@ -3,6 +3,8 @@
   <div class="container">
     <h1 class="display-1">Bienvenue sur DevWall</h1>
 
+    <Loading v-if="isLoading" />
+
     <va-card v-if="bookmarks.length">
       <va-card-title><h2 class="display-2">Mes bookmarks</h2></va-card-title>
       <va-card-content>
@@ -40,19 +42,30 @@
 </template>
 
 <script>
-import db from "@/data/db";
-
 import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
+import RessourceService from "@/services/ressourceService";
 
 import NavBar from "@/components/NavBar";
 import RessourceItem from "@/components/RessourceItem";
 import VideoModal from "@/components/VideoModal";
+import Loading from "@/components/Loading";
 
 export default {
-  components: { NavBar, RessourceItem, VideoModal },
+  components: { NavBar, RessourceItem, VideoModal, Loading },
 
   setup() {
-    const ressources = ref(db);
+    const isLoading = ref(false);
+    const ressourceService = new RessourceService();
+
+    onMounted(async () => {
+      isLoading.value = true;
+      const results = await ressourceService.getRessources();
+      ressources.value = results.data;
+      isLoading.value = false;
+    });
+
+    const ressources = ref([]);
 
     const bookmarks = ref([]);
 
@@ -71,6 +84,7 @@ export default {
       bookmarks,
       addToBookmarksAction,
       removeFromBookmarksAction,
+      isLoading,
     };
   },
 };
