@@ -65,6 +65,7 @@ class RessourceService {
         `${process.env.VUE_APP_API_SERVER}/ressources/${ressource.id}`,
         ressource
       );
+      console.log(ressource);
     } catch (error) {
       alert("Une erreur s'est produite !");
       console.log(error);

@@ -5,7 +5,7 @@
     <va-card>
       <va-card-content>
         <ul>
-          <li v-for="ressource in ressources" :key="ressource.id">
+          <li v-for="ressource in validRessources" :key="ressource.id">
             <va-button
               @click="deleteRessourceAction(ressource)"
               class="mr-2"
@@ -22,23 +22,14 @@
 </template>
 
 <script>
-import RessourceService from "@/services/ressourceService";
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
+import useAdminRessources from "@/composables/useAdminRessources";
 
 export default {
   setup() {
-    const store = useStore();
-    const ressources = computed(() => store.getters["getValidRessources"]);
-    const ressourceService = new RessourceService();
-
-    const deleteRessourceAction = (ressource) => {
-      ressourceService.deleteRessource(ressource);
-      store.dispatch("deleteRessourceAction", ressource);
-    };
+    const { validRessources, deleteRessourceAction } = useAdminRessources();
 
     return {
-      ressources,
+      validRessources,
       deleteRessourceAction,
     };
   },
