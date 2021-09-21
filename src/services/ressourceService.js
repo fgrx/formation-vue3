@@ -41,7 +41,36 @@ class RessourceService {
       console.log(error);
     }
 
+    return res.data;
+  }
+
+  async deleteRessource(ressource) {
+    let res = null;
+    try {
+      res = await axios.delete(
+        `${process.env.VUE_APP_API_SERVER}/ressources/${ressource.id}`
+      );
+    } catch (error) {
+      alert("Une erreur s'est produite !");
+      console.log(error);
+    }
+
     return res;
+  }
+
+  async updateRessource(ressource) {
+    let res = null;
+    try {
+      res = await axios.put(
+        `${process.env.VUE_APP_API_SERVER}/ressources/${ressource.id}`,
+        ressource
+      );
+    } catch (error) {
+      alert("Une erreur s'est produite !");
+      console.log(error);
+    }
+
+    return res.data;
   }
 }
 

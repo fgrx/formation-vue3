@@ -1,11 +1,66 @@
 <template>
   <div>
     <h2 class="display-2">Validation</h2>
+
+    <va-card>
+      <va-card-content>
+        <ul>
+          <li v-for="ressource in ressources" :key="ressource.id">
+            <va-button
+              @click="validateRessourceAction(ressource)"
+              class="mr-2"
+              color="success"
+              icon="thumb_up"
+              size="small"
+            ></va-button>
+
+            <va-button
+              @click="deleteRessourceAction(ressource)"
+              class="mr-2"
+              color="warning"
+              icon="thumb_down"
+              size="small"
+            ></va-button>
+            <a :href="ressource.url" target="blank">{{ ressource.title }}</a>
+          </li>
+        </ul>
+      </va-card-content>
+    </va-card>
   </div>
 </template>
 
 <script>
-export default {};
+import RessourceService from "@/services/ressourceService";
+import { computed } from "@vue/reactivity";
+import { useStore } from "vuex";
+
+export default {
+  setup() {
+    const store = useStore();
+    const ressources = computed(() => store.getters["getNotValidRessources"]);
+    const ressourceService = new RessourceService();
+
+    const validateRessourceAction = (ressource) => {
+      const updatedRessource = ressource;
+      updatedRessource.isValid = true;
+
+      ressourceService.updateRessource(updatedRessource);
+
+      store.dispatch("updateRessourceAction", updatedRessource);
+    };
+
+    const deleteRessourceAction = (ressource) => {
+      ressourceService.deleteRessource(ressource);
+      store.dispatch("deleteRessourceAction", ressource);
+    };
+
+    return {
+      ressources,
+      validateRessourceAction,
+      deleteRessourceAction,
+    };
+  },
+};
 </script>
 
 <style scoped></style>

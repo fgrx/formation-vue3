@@ -60,7 +60,6 @@ export default {
     },
   },
   setup(props, context) {
-    console.log(props);
     const mediaInFrench = computed(() => {
       switch (props.ressource.media) {
         case "video":

@@ -60,11 +60,13 @@
 import eventBus from "@/plugins/eventBus";
 import { computed, ref } from "@vue/reactivity";
 import RessourceService from "@/services/ressourceService";
+import { useStore } from "vuex";
 
 export default {
   setup() {
     const isOpen = ref(false);
     const message = ref({});
+    const store = useStore();
 
     const isDisabled = computed(() =>
       ressourceForm.value.title && ressourceForm.value.url ? false : true
@@ -118,13 +120,16 @@ export default {
       };
 
       const ressourceService = new RessourceService();
-      const res = await ressourceService.addRessource(ressource);
+      const ressourceAdded = await ressourceService.addRessource(ressource);
 
-      if (res) {
+      if (ressourceAdded) {
         message.value = {
           type: "success",
           text: "Document ajouté avec succès.",
         };
+
+        store.dispatch("addRessourceAction", ressourceAdded);
+        closeAndReinitAction();
       } else {
         message.value = {
           type: "warning",

@@ -2,8 +2,6 @@
   <div>
     <h1 class="display-1">Bienvenue sur DevWall</h1>
 
-    <Loading v-if="isLoading" />
-
     <va-card v-if="bookmarks.length">
       <va-card-title><h2 class="display-2">Mes bookmarks</h2></va-card-title>
       <va-card-content>
@@ -39,32 +37,17 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
-import RessourceService from "@/services/ressourceService";
+import { computed, ref } from "@vue/reactivity";
 
 import RessourceItem from "@/components/RessourceItem";
-import Loading from "@/components/Loading";
+import { useStore } from "vuex";
 
 export default {
-  components: { RessourceItem, Loading },
+  components: { RessourceItem },
   setup() {
-    const isLoading = ref(false);
-    const ressourceService = new RessourceService();
-    const ressources = ref([]);
+    const store = useStore();
 
-    const loadDatas = async () => {
-      isLoading.value = true;
-      ressources.value = await ressourceService.getRessources();
-      isLoading.value = false;
-    };
-    loadDatas();
-
-    //deuxième méthode
-    // onMounted(async () => {
-    //   isLoading.value = true;
-    //   ressources.value = await ressourceService.getRessources();
-    //   isLoading.value = false;
-    // });
+    const ressources = computed(() => store.getters["getValidRessources"]);
 
     const bookmarks = ref([]);
 
@@ -83,7 +66,6 @@ export default {
       bookmarks,
       addToBookmarksAction,
       removeFromBookmarksAction,
-      isLoading,
     };
   },
 };

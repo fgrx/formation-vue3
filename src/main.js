@@ -3,8 +3,9 @@ import App from "./App.vue";
 import { VuesticPlugin } from "vuestic-ui";
 import "vuestic-ui/dist/vuestic-ui.css";
 import router from "./router";
+import store from './store'
 
-const app = createApp(App);
+const app = createApp(App).use(store);
 
 app.use(VuesticPlugin, {
   colors: {

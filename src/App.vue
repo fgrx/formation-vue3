@@ -1,5 +1,7 @@
 <template>
   <NavBar class="mb-4" />
+
+  <Loading v-if="isLoading" />
   <div class="container">
     <router-view />
   </div>
@@ -9,14 +11,38 @@
 </template>
 
 <script>
+import { ref } from "@vue/reactivity";
+import { useStore } from "vuex";
+
+import RessourceService from "@/services/ressourceService";
+
 import NavBar from "@/components/NavBar";
 import VideoModal from "@/components/VideoModal";
 import RessourceModal from "@/components/RessourceModal";
 
-export default {
-  components: { NavBar, VideoModal, RessourceModal },
+import Loading from "@/components/Loading";
 
-  setup() {},
+export default {
+  components: { NavBar, Loading, VideoModal, RessourceModal },
+
+  setup() {
+    const store = useStore();
+
+    const isLoading = ref(false);
+    const ressourceService = new RessourceService();
+
+    const loadDatas = async () => {
+      isLoading.value = true;
+      const ressources = await ressourceService.getRessources();
+      store.dispatch("updateRessourcesAction", ressources);
+      isLoading.value = false;
+    };
+    loadDatas();
+
+    return {
+      isLoading,
+    };
+  },
 };
 </script>
 
