@@ -5,14 +5,16 @@
   </div>
 
   <VideoModal />
+  <RessourceModal />
 </template>
 
 <script>
 import NavBar from "@/components/NavBar";
 import VideoModal from "@/components/VideoModal";
+import RessourceModal from "@/components/RessourceModal";
 
 export default {
-  components: { NavBar, VideoModal },
+  components: { NavBar, VideoModal, RessourceModal },
 
   setup() {},
 };

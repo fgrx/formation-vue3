@@ -19,12 +19,29 @@
           >Administration</router-link
         ></va-navbar-item
       >
+      <va-navbar-item
+        ><va-button
+          size="small"
+          @click="openFormAddRessourceAction"
+          icon="add_circle_outline"
+          >Ajouter</va-button
+        >
+      </va-navbar-item>
     </template>
   </va-navbar>
 </template>
 
 <script>
-export default {};
+import eventBus from "@/plugins/eventBus";
+
+export default {
+  setup() {
+    const openFormAddRessourceAction = () =>
+      eventBus.emit("open-ressource-form");
+
+    return { openFormAddRessourceAction };
+  },
+};
 </script>
 
 <style scoped></style>

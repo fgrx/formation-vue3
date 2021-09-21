@@ -7,9 +7,9 @@
       />
     </router-link>
 
-    <va-card-title
-      ><span v-if="ressource.isTop"><va-icon name="star" /> </span>
-      {{ mediaInFrench }}</va-card-title
+    <va-card-title>
+      <span v-if="ressource.isTop"><va-icon name="star" /> </span>
+      {{ ressource.title }}</va-card-title
     >
     <va-card-content>
       {{ mediaInFrench }} ajouté(e) le {{ dateInFrench }}</va-card-content
@@ -60,6 +60,7 @@ export default {
     },
   },
   setup(props, context) {
+    console.log(props);
     const mediaInFrench = computed(() => {
       switch (props.ressource.media) {
         case "video":

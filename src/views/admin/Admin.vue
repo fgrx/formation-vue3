@@ -16,4 +16,8 @@
 export default {};
 </script>
 
-<style scoped></style>
+<style scoped>
+.router-link-exact-active {
+  background-color: rgb(2 43 128) !important;
+}
+</style>

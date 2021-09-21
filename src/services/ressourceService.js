@@ -4,7 +4,9 @@ class RessourceService {
   async getRessources() {
     let res = null;
     try {
-      res = await axios.get(`${process.env.VUE_APP_API_SERVER}/ressources`);
+      res = await axios.get(
+        `${process.env.VUE_APP_API_SERVER}/ressources?_sort=date&_order=desc`
+      );
     } catch (error) {
       alert("Une erreur s'est produite !");
       console.log(error);
@@ -25,6 +27,21 @@ class RessourceService {
     }
 
     return res.data;
+  }
+
+  async addRessource(ressource) {
+    let res = null;
+    try {
+      res = await axios.post(
+        `${process.env.VUE_APP_API_SERVER}/ressources`,
+        ressource
+      );
+    } catch (error) {
+      alert("Une erreur s'est produite !");
+      console.log(error);
+    }
+
+    return res;
   }
 }
 
