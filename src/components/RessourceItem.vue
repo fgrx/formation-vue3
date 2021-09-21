@@ -1,9 +1,11 @@
 <template>
   <va-card>
-    <va-image
-      style="height: 220px"
-      :src="ressource.image || require('@/assets/default-image.png')"
-    />
+    <router-link :to="{ name: 'Ressource', params: { id: ressource.id } }">
+      <va-image
+        style="height: 220px"
+        :src="ressource.image || require('@/assets/default-image.png')"
+      />
+    </router-link>
 
     <va-card-title
       ><span v-if="ressource.isTop"><va-icon name="star" /> </span>
