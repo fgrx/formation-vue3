@@ -1,18 +1,18 @@
 # formation-vue3
 
-# Exercice DevWall 
+## Exercice DevWall 
 Un projet complet basé sur Vue3, composition API et Vuestic.
 
 Fichiers nécessaires pour la réalisation de l'exercice : 
 [Télécharger les fichiers de données](https://u.pcloud.link/publink/show?code=kZG8StXZBLvQAmrug2kR12wpvSgh0BJzteQX)
 ## Setup du projet
 
-### Installe les dépendances NPM
+### Installer les dépendances NPM
 ```
 npm install
 ```
 
-### Installe le faux serveur REST avec le middleware d'authentification
+### Installer le faux serveur REST avec le middleware d'authentification
 ```
 npm install -D json-server json-server-auth
 ```
@@ -22,7 +22,7 @@ npm install -D json-server json-server-auth
 json-server db.json --watch -m ./node_modules/json-server-auth
 ```
 
-### Lancer l'application
+### Lancer l'application en mode développement
 ```
 npm run serve
 ```
