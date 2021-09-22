@@ -46,11 +46,13 @@
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
-import eventBus from "../plugins/eventBus";
+import useRessource from "@/composables/useRessource";
+import eventBus from "@/plugins/eventBus";
+import { toRefs } from "@vue/reactivity";
+
 export default {
   props: {
-    ressource: {
+    ressourceDatas: {
       type: Object,
       default: null,
     },
@@ -60,22 +62,11 @@ export default {
     },
   },
   setup(props, context) {
-    const mediaInFrench = computed(() => {
-      switch (props.ressource.media) {
-        case "video":
-          return "Vidéo";
-        case "book":
-          return "Livre";
-        case "post":
-          return "Article";
-        default:
-          return "Ressource";
-      }
-    });
+    const { ressource, dateInFrench, mediaInFrench } = useRessource();
 
-    const dateInFrench = computed(() =>
-      new Date(props.ressource.date).toLocaleDateString()
-    );
+    const { ressourceDatas } = toRefs(props);
+
+    ressource.value = ressourceDatas.value;
 
     const bookmarkAction = (ressource) => {
       context.emit("add-to-bookmarks", ressource);
@@ -90,6 +81,7 @@ export default {
     };
 
     return {
+      ressource,
       dateInFrench,
       mediaInFrench,
       bookmarkAction,

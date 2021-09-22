@@ -10,7 +10,7 @@
               @click="deleteRessourceAction(ressource)"
               class="mr-2"
               color="warning"
-              icon="thumb_down"
+              icon="delete"
               size="small"
             ></va-button>
             <a :href="ressource.url" target="blank">{{ ressource.title }}</a>

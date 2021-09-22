@@ -29,7 +29,7 @@
       >
         <RessourceItem
           @add-to-bookmarks="addToBookmarksAction($event)"
-          :ressource="ressource"
+          :ressourceDatas="ressource"
         />
       </div>
     </div>

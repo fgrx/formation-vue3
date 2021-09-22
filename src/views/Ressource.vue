@@ -9,6 +9,7 @@
       </div>
       <div class="flex md8 xs12 pl-4">
         <h1 class="display-1">{{ ressource.title }}</h1>
+        <p class="my-2">{{ mediaInFrench }} ajouté(e) le {{ dateInFrench }}</p>
         <p class="my-2">
           <va-rating v-model="ressource.rating"></va-rating>
         </p>
@@ -16,9 +17,12 @@
         <va-button class="my-2" :href="ressource.url" target="blank" icon="link"
           >Voir la ressource</va-button
         >
-
-        <p>{{ ressource.description }}</p>
       </div>
+
+      <ContentDisplayer>
+        <template v-slot:title>{{ ressource.title }}</template
+        >{{ ressource.description }}</ContentDisplayer
+      >
     </div>
   </div>
 </template>
@@ -27,16 +31,18 @@
 import { ref } from "@vue/reactivity";
 import { useRoute } from "vue-router";
 
+import useRessource from "@/composables/useRessource";
 import RessourceService from "@/services/ressourceService";
 
 import Loading from "@/components/Loading";
+import ContentDisplayer from "@/components/ContentDisplayer";
 
 export default {
-  components: { Loading },
+  components: { Loading, ContentDisplayer },
 
   setup() {
     const ressourceId = useRoute().params.id;
-    const ressource = ref();
+    const { ressource, dateInFrench, mediaInFrench } = useRessource();
     const isLoading = ref(false);
 
     const ressourceService = new RessourceService();
@@ -49,7 +55,7 @@ export default {
 
     getDatas();
 
-    return { ressource, ressourceId, isLoading };
+    return { ressource, dateInFrench, mediaInFrench, ressourceId, isLoading };
   },
 };
 </script>
