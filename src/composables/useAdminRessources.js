@@ -7,29 +7,38 @@ export default function useRessource() {
   const store = useStore();
   const ressourceService = new RessourceService();
 
+  const { accessToken } = store.state.auth.user;
+
   const validRessources = computed(() => store.getters["getValidRessources"]);
   const notValidRessources = computed(
     () => store.getters["getNotValidRessources"]
   );
 
-  const deleteRessourceAction = (ressource) => {
+  const deleteRessourceAction = async (ressource) => {
     const result = window.confirm(
       "Voulez-vous vraiment supprimer ce document ?"
     );
 
     if (result) {
-      ressourceService.deleteRessource(ressource);
-      store.dispatch("deleteRessourceAction", ressource);
+      const deleteRessource = async () =>
+        await ressourceService.deleteRessource(ressource, accessToken);
+
+      const resDelete = await deleteRessource();
+
+      if (resDelete) store.dispatch("deleteRessourceAction", ressource);
     }
   };
 
-  const validateRessourceAction = (ressource) => {
-    const updatedRessource = ressource;
+  const validateRessourceAction = async (ressource) => {
+    const updatedRessource = { ...ressource };
     updatedRessource.isValid = true;
 
-    ressourceService.updateRessource(updatedRessource);
+    const updateRessource = async () =>
+      await ressourceService.updateRessource(updatedRessource, accessToken);
 
-    store.dispatch("updateRessourceAction", updatedRessource);
+    const resUpdate = await updateRessource();
+
+    if (resUpdate) store.dispatch("updateRessourceAction", updatedRessource);
   };
 
   return {

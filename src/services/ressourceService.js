@@ -44,11 +44,13 @@ class RessourceService {
     return res.data;
   }
 
-  async deleteRessource(ressource) {
+  async deleteRessource(ressource, accessToken) {
     let res = null;
     try {
+      const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
       res = await axios.delete(
-        `${process.env.VUE_APP_API_SERVER}/ressources/${ressource.id}`
+        `${process.env.VUE_APP_API_SERVER_PROTECTED}/ressources/${ressource.id}`,
+        headers
       );
     } catch (error) {
       alert("Une erreur s'est produite !");
@@ -58,20 +60,21 @@ class RessourceService {
     return res;
   }
 
-  async updateRessource(ressource) {
+  async updateRessource(ressource, accessToken) {
     let res = null;
     try {
+      const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
       res = await axios.put(
-        `${process.env.VUE_APP_API_SERVER}/ressources/${ressource.id}`,
-        ressource
+        `${process.env.VUE_APP_API_SERVER_PROTECTED}/ressources/${ressource.id}`,
+        ressource,
+        headers
       );
-      console.log(ressource);
+      return res.data;
     } catch (error) {
       alert("Une erreur s'est produite !");
       console.log(error);
+      return null;
     }
-
-    return res.data;
   }
 }
 

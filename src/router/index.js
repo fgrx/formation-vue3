@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "@/views/Home.vue";
+import store from "@/store";
 
 const routes = [
   {
@@ -22,8 +23,14 @@ const routes = [
       import(/* webpackChunkName: "ressource" */ "@/views/Ressource"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import(/* webpackChunkName: "login" */ "@/views/Login"),
+  },
+  {
     path: "/admin",
     name: "Admin",
+    meta: { needAuth: true },
     component: () =>
       import(/* webpackChunkName: "admin" */ "@/views/admin/Admin"),
     children: [
@@ -50,6 +57,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const { accessToken } = store.state.auth.user;
+  const isPageProtected = to.matched.some((route) => route.meta.needAuth);
+
+  if (!accessToken && isPageProtected) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
 });
 
 export default router;
