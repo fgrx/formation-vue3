@@ -1,9 +1,13 @@
 <template>
-  <NavBar class="mb-4" />
+  <va-affix :offset-top="0">
+    <NavBar class="mb-4" />
+  </va-affix>
 
   <Loading v-if="isLoading" />
   <div class="container">
-    <router-view />
+    <transition>
+      <router-view />
+    </transition>
   </div>
 
   <VideoModal />
@@ -72,5 +76,31 @@ export default {
 
 p {
   margin-bottom: 1em !important;
+}
+
+.slide-enter-from {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-leave-to {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease-out;
 }
 </style>

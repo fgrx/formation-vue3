@@ -4,7 +4,7 @@
 
     <va-card>
       <va-card-content>
-        <ul>
+        <transition-group name="slide" tag="ul">
           <li v-for="ressource in notValidRessources" :key="ressource.id">
             <va-button
               @click="validateRessourceAction(ressource)"
@@ -23,7 +23,7 @@
             ></va-button>
             <a :href="ressource.url" target="blank">{{ ressource.title }}</a>
           </li>
-        </ul>
+        </transition-group>
       </va-card-content>
     </va-card>
   </div>
