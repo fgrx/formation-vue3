@@ -56,115 +56,100 @@
   </va-modal>
 </template>
 
-<script>
+<script setup>
 import eventBus from "@/plugins/eventBus";
 import { computed, ref } from "@vue/reactivity";
 import RessourceService from "@/services/ressourceService";
 import { useStore } from "vuex";
 
-export default {
-  setup() {
-    const isOpen = ref(false);
-    const message = ref({});
-    const store = useStore();
+const isOpen = ref(false);
+const message = ref({});
+const store = useStore();
 
-    const isDisabled = computed(() =>
-      ressourceForm.value.title && ressourceForm.value.url ? false : true
-    );
+const isDisabled = computed(() =>
+  ressourceForm.value.title && ressourceForm.value.url ? false : true
+);
 
-    const langOptions = [
-      { text: "Français", value: "fr" },
-      { text: "Anglais", value: "en" },
-    ];
-    const mediaOptions = [
-      { text: "Article", value: "post" },
-      { text: "Livre", value: "book" },
-      { text: "Vidéo", value: "video" },
-    ];
+const langOptions = [
+  { text: "Français", value: "fr" },
+  { text: "Anglais", value: "en" },
+];
+const mediaOptions = [
+  { text: "Article", value: "post" },
+  { text: "Livre", value: "book" },
+  { text: "Vidéo", value: "video" },
+];
 
-    eventBus.on("open-ressource-form", () => (isOpen.value = true));
+eventBus.on("open-ressource-form", () => (isOpen.value = true));
 
-    const ressourceForm = ref({
-      title: "",
-      description: "",
-      url: "",
-      image: "",
-      rating: 0,
-      lang: "fr",
-      media: "post",
-    });
+const ressourceForm = ref({
+  title: "",
+  description: "",
+  url: "",
+  image: "",
+  rating: 0,
+  lang: "fr",
+  media: "post",
+});
 
-    const addRessourceAction = async () => {
-      const {
-        title,
-        description,
-        url,
-        image,
-        rating,
-        lang,
-        media,
-      } = ressourceForm.value;
+const addRessourceAction = async () => {
+  const {
+    title,
+    description,
+    url,
+    image,
+    rating,
+    lang,
+    media,
+  } = ressourceForm.value;
 
-      const currentDate = new Date();
+  const currentDate = new Date();
 
-      const ressource = {
-        title,
-        description,
-        url,
-        image,
-        rating,
-        lang,
-        media,
-        isValid: false,
-        date: currentDate.toISOString(),
-      };
+  const ressource = {
+    title,
+    description,
+    url,
+    image,
+    rating,
+    lang,
+    media,
+    isValid: false,
+    date: currentDate.toISOString(),
+  };
 
-      const ressourceService = new RessourceService();
-      const ressourceAdded = await ressourceService.addRessource(ressource);
+  const ressourceService = new RessourceService();
+  const ressourceAdded = await ressourceService.addRessource(ressource);
 
-      if (ressourceAdded) {
-        message.value = {
-          type: "success",
-          text: "Document ajouté avec succès.",
-        };
-
-        store.dispatch("addRessourceAction", ressourceAdded);
-        closeAndReinitAction();
-      } else {
-        message.value = {
-          type: "warning",
-          text: "Echec de l'ajout du document",
-        };
-      }
+  if (ressourceAdded) {
+    message.value = {
+      type: "success",
+      text: "Document ajouté avec succès.",
     };
 
-    const closeAndReinitAction = () => {
-      ressourceForm.value = {
-        title: "",
-        description: "",
-        url: "",
-        image: "",
-        rating: 0,
-        lang: "fr",
-        media: "post",
-      };
-
-      isOpen.value = false;
-
-      message.value = {};
+    store.dispatch("addRessourceAction", ressourceAdded);
+    closeAndReinitAction();
+  } else {
+    message.value = {
+      type: "warning",
+      text: "Echec de l'ajout du document",
     };
+  }
+};
 
-    return {
-      isOpen,
-      langOptions,
-      mediaOptions,
-      addRessourceAction,
-      ressourceForm,
-      message,
-      isDisabled,
-      closeAndReinitAction,
-    };
-  },
+const closeAndReinitAction = () => {
+  ressourceForm.value = {
+    title: "",
+    description: "",
+    url: "",
+    image: "",
+    rating: 0,
+    lang: "fr",
+    media: "post",
+  };
+
+  isOpen.value = false;
+
+  message.value = {};
 };
 </script>
 

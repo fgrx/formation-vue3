@@ -14,7 +14,7 @@
             <RessourceItem
               @remove-from-bookmarks="removeFromBookmarksAction($event)"
               isBookmark
-              :ressource="ressource"
+              :ressourceDatas="ressource"
             />
           </div>
         </div>

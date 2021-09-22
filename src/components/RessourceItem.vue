@@ -45,50 +45,30 @@
   </va-card>
 </template>
 
-<script>
+<script setup>
 import useRessource from "@/composables/useRessource";
 import eventBus from "@/plugins/eventBus";
-import { toRefs } from "@vue/reactivity";
+import { toRefs, defineProps, defineEmits } from "vue";
 
-export default {
-  props: {
-    ressourceDatas: {
-      type: Object,
-      default: null,
-    },
-    isBookmark: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props, context) {
-    const { ressource, dateInFrench, mediaInFrench } = useRessource();
+const props = defineProps({ ressourceDatas: Object, isBookmark: Boolean });
+const emit = defineEmits(["add-to-bookmarks", "remove-from-bookmarks"]);
 
-    const { ressourceDatas } = toRefs(props);
+const { ressource, dateInFrench, mediaInFrench } = useRessource();
 
-    ressource.value = ressourceDatas.value;
+const { ressourceDatas } = toRefs(props);
 
-    const bookmarkAction = (ressource) => {
-      context.emit("add-to-bookmarks", ressource);
-    };
+ressource.value = ressourceDatas.value;
 
-    const removeBookmarkAction = (ressource) => {
-      context.emit("remove-from-bookmarks", ressource);
-    };
+const bookmarkAction = (ressource) => {
+  emit("add-to-bookmarks", ressource);
+};
 
-    const openVideoAction = (ressource) => {
-      eventBus.emit("open-video-modal", ressource);
-    };
+const removeBookmarkAction = (ressource) => {
+  emit("remove-from-bookmarks", ressource);
+};
 
-    return {
-      ressource,
-      dateInFrench,
-      mediaInFrench,
-      bookmarkAction,
-      removeBookmarkAction,
-      openVideoAction,
-    };
-  },
+const openVideoAction = (ressource) => {
+  eventBus.emit("open-video-modal", ressource);
 };
 </script>
 
