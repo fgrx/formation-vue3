@@ -7,7 +7,7 @@
       />
     </router-link>
 
-    <va-card-title>
+    <va-card-title data-test-id="title">
       <span v-if="ressource.isTop"><va-icon name="star" /> </span>
       {{ ressource.title }}</va-card-title
     >
@@ -17,6 +17,7 @@
 
     <div class="px-3 py-3">
       <va-button
+        data-test-id="bookmarkButton"
         v-if="!isBookmark"
         color="#3ac93e"
         gradient
@@ -25,6 +26,7 @@
         round
       />
       <va-button
+        data-test-id="removeBookmarkButton"
         v-else
         color="#3ac93e"
         gradient
@@ -33,6 +35,7 @@
         round
       />
       <va-button
+        data-test-id="openVideoButton"
         v-if="ressource.media === 'video'"
         color="#3ac93e"
         gradient
