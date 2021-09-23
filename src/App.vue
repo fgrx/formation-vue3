@@ -5,9 +5,7 @@
 
   <Loading v-if="isLoading" />
   <div class="container">
-    <transition>
-      <router-view />
-    </transition>
+    <router-view />
   </div>
 
   <VideoModal />
